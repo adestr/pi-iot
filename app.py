@@ -16,7 +16,7 @@ if len(sys.argv) < 2:
     sys.exit(0)
 
 PROTOCOL = IoTHubTransportProvider.MQTT
-CONNECTION_STRING = argv[1]
+CONNECTION_STRING = sys.argv[1]
 # TODO: Get device ID from connection string?
 DEVICE_ID = 'pi-001'
 
