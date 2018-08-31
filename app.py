@@ -4,6 +4,8 @@ import sys
 import time
 import random
 
+import config as config
+
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider
 from iothub_client import 
 
