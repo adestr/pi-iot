@@ -108,7 +108,8 @@ def run():
         while True:
             global MESSAGE_COUNT, DO_SEND_MESSAGES
             if DO_SEND_MESSAGES:
-                read_and_send_light(client)
+                if config.TSL_2591:
+                    read_and_send_light(client)
             time.sleep(config.MESSAGE_TIMESPAN / 1000.0)
 
     except IoTHubError as iothub_error:
