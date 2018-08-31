@@ -1,3 +1,3 @@
 # pi-iot
 
-IoT code for Raspberry Pi
+Simple code to read sensor data and send to Azure IoT Hub
