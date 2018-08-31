@@ -6,7 +6,7 @@ import random
 
 import config as config
 
-from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider
+from iothub_client import IoTHubClient, IoTHubMessage, IoTHubClientError, IoTHubTransportProvider
 from iothub_client import IoTHubMessageDispositionResult, IoTHubError
 
 from light_sensor import LightSensor
@@ -28,9 +28,12 @@ RECEIVE_CONTEXT = 0
 TWIN_CONTEXT = 0
 METHOD_CONTEXT = 0
 
+SEND_CALLBACKS = 0
 RECEIVE_CALLBACKS = 0
 METHOD_CALLBACKS = 0
 DO_SEND_MESSAGES = True
+
+MESSAGE_COUNT = 0
 
 MESSAGE_FORMAT_LIGHT = "{ 'deviceId': '%s', 'lux': %f, 'timestamp': '%s' }"
 
@@ -69,6 +72,11 @@ def device_method_callback(method_name, payload, user_context):
         return_value.response = "{ \"Response\": \"Successfully stopped\" }"
         return return_value
     return return_value
+
+def send_confirmation_callback(message, result, user_context):
+    global SEND_CALLBACKS
+    SEND_CALLBACKS += 1
+    print ( '%d messages sent' % SEND_CALLBACKS )
 
 def iothub_connect():
     client = IoTHubClient(CONNECTION_STRING, PROTOCOL)
