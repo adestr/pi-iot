@@ -9,16 +9,16 @@ import config as config
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider
 from iothub_client import IoTHubMessageDispositionResult, IoTHubError
 
-import light_sensor as LightSensor
+from light_sensor import LightSensor
 
-if len(sys.argv) < 3:
+if len(sys.argv) < 2:
     print ( "IoT Hub connection string and device ID must be provided as input" )
     sys.exit(0)
 
 PROTOCOL = IoTHubTransportProvider.MQTT
 CONNECTION_STRING = argv[1]
 # TODO: Get device ID from connection string?
-DEVICE_ID = argv[2]
+DEVICE_ID = 'pi-001'
 
 # Messages will time out after ten seconds
 MESSAGE_TIMEOUT = 10000
@@ -83,7 +83,8 @@ def iothub_connect():
 def read_and_send_light(client):
     light_sensor = LightSensor()
     lux = light_sensor.get_lux()
-    msg = MESSAGE_FORMAT_LIGHT % ( DEVICE_ID, lux )
+    now = time.time()
+    msg = MESSAGE_FORMAT_LIGHT % ( DEVICE_ID, lux, now )
     print (msg)
     message = IoTHubMessage(msg)
     # optional: assign ids
