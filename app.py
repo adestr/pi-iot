@@ -7,9 +7,9 @@ import random
 import config as config
 
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider
-from iothub_client import 
+from iothub_client import IoTHubMessageDispositionResult, IoTHubError
 
-import LightSensor from light_sensor
+import light_sensor as LightSensor
 
 if len(sys.argv) < 3:
     print ( "IoT Hub connection string and device ID must be provided as input" )
@@ -83,7 +83,7 @@ def iothub_connect():
 def read_and_send_light(client):
     light_sensor = LightSensor()
     lux = light_sensor.get_lux()
-    msg = MESSAGE_FORMAT_LIGHT % ( DEVICE_ID lux )
+    msg = MESSAGE_FORMAT_LIGHT % ( DEVICE_ID, lux )
     print (msg)
     message = IoTHubMessage(msg)
     # optional: assign ids
