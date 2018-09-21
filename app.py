@@ -84,7 +84,10 @@ def device_method_callback(method_name, payload, user_context):
 def send_confirmation_callback(message, result, user_context):
     global SEND_CALLBACKS
     SEND_CALLBACKS += 1
-    print ( '%d messages sent' % SEND_CALLBACKS )
+    s = ''
+    if SEND_CALLBACKS != 1:
+        s = 's'
+    print ( '{} message{} sent'.format(SEND_CALLBACKS, s))
 
 def iothub_connect():
     client = IoTHubClient(CONNECTION_STRING, PROTOCOL)
