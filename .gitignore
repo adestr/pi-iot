@@ -1,3 +1,7 @@
+# SDKs etc.
+azure-iot-sdk-python
+python-tsl2591
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
