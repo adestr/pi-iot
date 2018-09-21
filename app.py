@@ -17,8 +17,6 @@ if len(sys.argv) < 2:
 
 PROTOCOL = IoTHubTransportProvider.MQTT
 CONNECTION_STRING = sys.argv[1]
-# TODO: Get device ID from connection string?
-DEVICE_ID = 'pi-001'
 
 # Messages will time out after ten seconds
 MESSAGE_TIMEOUT = 10000
@@ -35,7 +33,17 @@ DO_SEND_MESSAGES = True
 
 MESSAGE_COUNT = 0
 
-MESSAGE_FORMAT_LIGHT = "{ 'deviceId': '%s', 'lux': %f, 'timestamp': '%s' }"
+MESSAGE_FORMAT_LIGHT = "{ 'deviceId': '%s', 'lux': %f, 'timestamp': '%s', 'messageType': 'lux', 'sensorType': 'tsl2591' }"
+
+def get_device_id(connection_string):
+    '''Get the device id from the IoT Hub connection string'''
+    # Splits on semi-colons, then on equals sign; convert kvp array to tuple, then pass to dict
+    print('Getting device id from connection string')
+    # Shared access key is base64 encoded, and can therefore contain equals signs at the end; hence we cap the number of splits to 1
+    kvps = dict(map(lambda x: tuple(x.split('=', 1)), connection_string.split(';')))
+    deviceId = kvps['DeviceId']
+    print('    Device id: %s' % deviceId)
+    return deviceId
 
 def print_message_details(message, counter):
     buffer = message.get_bytearray()
@@ -121,7 +129,11 @@ def run():
         return
 
 if __name__ == '__main__':
-    print ( '\nPython %s' % sys.version )
-    print ( 'Heliconia IoT Message Generator' )
+    print('\nPython %s' % sys.version)
+    print
+    print('Heliconia IoT Message Generator')
+    print('-------------------------------')
+    print
 
+    DEVICE_ID = get_device_id(CONNECTION_STRING)
     run()
